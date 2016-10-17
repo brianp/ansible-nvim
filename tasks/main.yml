@@ -1,0 +1,16 @@
+---
+- apt_repository: repo='ppa:neovim-ppa/unstable'
+  become: true
+
+- name: update apt-get
+  apt: update_cache=yes
+  become: true
+
+- name: install required apt-get packages
+  apt: name={{ item }} state=present force=yes
+  with_items:
+    - software-properties-common
+    - neovim
+  become: true
+
+- file: path={{ ansible_ssh_user }}/.config/ state=directory
